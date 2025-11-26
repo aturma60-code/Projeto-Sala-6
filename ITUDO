@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Itudo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        background-color:#ffe29a;
+        color: #FFFFf;
+      ner {
+        width: 90%;
+        max-w}
+      header {
+        background-color: #f88863;
+        box-shadow: 0 8px 5px rgba(7, 0, 0, 0.1);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .container: 1100px;
+        margin: auto;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav h1 {
+        font-size: 25px;
+        font-weight: 600;
+        color: #fff;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 500;
+        transition: 0.3s;
+      }
+      nav ul li a:hover {
+        color: #007b83;
+      }
+      #carrinho-btn {
+        background-color:#ac4147;
+        color: #fff;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      section {
+        padding: 50px 0;
+      }
+      section h2 {
+        margin-bottom: 20px;
+        font-size: 26px;
+        border-left: 5px solid #007b83;
+        padding-left: 10px;
+      }
+      .produtos {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .produto {
+        display: flex;
+        align-items: center;
+        background:   #f88863;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s;
+      }
+      .produto:hover {
+        transform: translateY(-5px);
+      }
+      .produto img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-right: 20px;
+      }
+      .produto-info {
+        flex: 1;
+      }
+      .produto-info h3 {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+      .produto-info p {
+        color: #fff;
+        margin-bottom: 5px;
+      }
+      .produto-info span {
+        font-weight: 600;
+        color: #fff;
+      }
+      .produto button {
+        background-color:#ac4147;
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .produto button:hover {
+        background-color: #005f63;
+      }
+      footer {
+        background-color: #411f2d;
+        text-align: center;
+        padding: 15px;
+        margin-top: 30px;
+        border-top: 1px solid #ddd;
+        color: #fff;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Carrinho */
+      #carrinho {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        width: 320px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        padding: 15px;
+        display: none;
+        flex-direction: column;
+        z-index: 100;
+      }
+      #carrinho h3 {
+        margin-bottom: 10px;
+      }
+      #carrinho ul {
+        list-style: none;
+        max-height: 200px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+      }
+      #carrinho li {
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      #carrinho li button {
+        background: none;
+        border: none;
+        color: #d9534f;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      #carrinho #total {
+        font-weight: 600;
+        text-align: right;
+        margin-top: 10px;
+      }
+
+      #historico {
+        background: #f88863;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        margin-top: 30px;
+      }
+      #historico h2 {
+        margin-bottom: 10px;
+      }
+      .compra {
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+        margin-top: 10px;
+      }
+      .compra p {
+        margin: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <h1>Itudo</h1>
+          <ul>
+            <li><a href="#salgados">Salgados</a></li>
+            <li><a href="#Doces">Doces</a></li>
+            <li><button id="carrinho-btn">🛒 Carrinho (0)</button></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div id="carrinho">
+      <h3>Seu Carrinho</h3>
+      <ul id="lista-carrinho"></ul>
+      <div id="total">Total: R$ 0,00</div>
+      <button id="finalizar">Finalizar Compra</button>
+    </div>
+
+    <main class="container">
+      <section id="Salgadinhos">
+        <h2>Salgados</h2>
+        <div class="produtos">
+          <div class="produto">
+            <img
+              src="https://www.receitasdemae.com.br/wp-content/uploads/2009/09/Pastel-de-feira.jpg"
+              alt="pastel"
+            />
+            <div class="produto-info">
+              <h3>Pasteis</h3>
+              <p>Frango,Queijo,Misto.</p>
+              <span>R$ 2,50</span><br />
+              <button
+                class="comprar"
+                data-produto="Pastel"
+                data-preco="2,50"
+              >
+              compra
+               </button>
+            </div>
+          </div>
+          <div class="produto">
+            <img
+              src="https://bloogao.com/wp-content/uploads/2023/05/pao-de-queijo.jpg"
+              alt="pão de queijo"
+            />
+            <div class="produto-info">
+              <h3>Pão de queijo</h3>
+              <p>Crocante por Fora, Macio por Dentro!</p>
+              <span>R$ 3,00</span><br />
+              <button
+                class="comprar"
+                data-produto="Pão de queijo"
+                data-preco="3"
+              >
+              compra
+               </button>
+            </div>
+          </div>
+          <div class="produto">
+            <img
+              src="https://www.hurfpostbrasil.com/wp-content/uploads/2024/03/tipos-de-salgadinhos-para-festas-que-nunca-podem-faltar-768x443.jpg"
+              alt="Salgadinho"
+            />
+            <div class="produto-info">
+              <h3>Salgadinho</h3>
+              <p>Salgadinhos Fresquinhos e Irresistíveis!</p>
+              <span>R$ 2,00</span><br />
+              <button
+                class="comprar"
+                data-produto="Salgadinho"
+                data-preco="2"
+              >
+                
+                Comprar
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="Doces">
+        <h2>Doces</h2>
+        <div class="produtos">
+          <div class="produto">
+            <img
+        src="https://dafeiraaobaile.com.br/wp-content/uploads/2023/02/Dafeiraaobaile-Novembro-69.jpg"
+              alt=Brigadeiro/>
+            <div class="produto-info">
+              <h3>Brigadeiro</h3>
+              <p>Brigadeiro cremoso, feito com chocolate de verdade e do jeitinho que derrete na boca!</p>
+              <span>R$1,00</span><br />
+              <button
+                class="comprar"
+                data-produto="Brigadeiro"
+                data-preco="1"
+              >                                      
+          compra
+               </button>
+            </div>
+          </div>
+          <div class="produto">
+            <img
+              src="https://vovonaoca.com.br/wp-content/uploads/2025/05/Esse-Pudim-de-Leite-Condensado-Fica-Tao-Perfeito-Que-Derrete-na-Boca-672x352.jpg"
+              alt="Pudim"
+            />
+            <div class="produto-info">
+              <h3>Pudim</h3>
+              <p>Pudim cremoso, com calda dourada e sabor irresistível</p>
+              <span>R$ 5,00</span><br />
+              <button
+                class="comprar"
+                data-produto="Pudim"
+                data-preco="5"
+              >
+                Comprar
+              </button>
+            </div>
+          </div>
+          <div class="produto">
+            <img
+              src="https://www.estadao.com.br/resizer/v2/RFCDNG3RXBC5NNG35LITHDRSEM.jpg?quality=80&auth=a4c678e2f2670e6ad06c3ef36ae04f071dadad176a85a7db3663de88538d5c34&width=720&height=410&focal=446,324"
+              alt="Brawnie"/>
+            <div class="produto-info">
+              <h3>Brownie de chocolate</h3>
+              <p>Brownie macio, chocolatudo e com aquela casquinha crocante que todo mundo ama!</p>
+              <span>R$ 3,50</span><br />
+              <button
+                class="comprar"
+                data-produto="Brownie de chocolate"
+                data-preco="3,50"
+              >                                                                  Comprar
+              </button>
+            </div>
+          </div>
+          <div class="produto">
+            <img
+              src="https://curlygirlkitchen.com/wp-content/uploads/2021/07/Chocolate-Chip-Cookie-Brownies-004.jpg"
+              alt="Brawnie"/>
+            <div class="produto-info">
+              <h3>Brownie de cookie</h3>
+              <p>Brownie macio, chocolatudo e com aquela casquinha crocante que todo mundo ama!</p>
+              <span>R$ 3,50</span><br />
+              <button
+                class="comprar"
+                data-produto="Brownie de cookie"
+                data-preco="3,50"
+              >
+                Comprar
+              </button>
+            </div>
+          </div>
+          <div class="produto">
+            <img
+              src="https://s2.glbimg.com/1Jk-QdYG2ZQIEkkB_6NekcH1ltQ=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2020/E/N/ddsVUiRXCXki9nIpIWAg/bolo-de-chocolate.jpg"
+              alt="bolo Doce"
+            />
+            <div class="produto-info">
+              <h3>Bolo</h3>
+              <p>Bolo de chocolate fofinho e molhadinho, com sabor intenso que conquista na primeira fatia!</p>
+              <span>R$4,00</span><br />
+              <button
+                class="comprar"
+                data-produto="Bolo de chocolate"
+                data-preco="4"
+              >
+                Comprar
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="historico">
+        <h2>Histórico de Vendas</h2>
+        <div id="lista-historico"></div>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 Mercado Escolar | Desenvolvido para a Feira da Escola
+    </footer>
+
+    <script>
+      const carrinhoBtn = document.getElementById("carrinho-btn");
+      const carrinho = document.getElementById("carrinho");
+      const listaCarrinho = document.getElementById("lista-carrinho");
+      const finalizarBtn = document.getElementById("finalizar");
+      const totalDisplay = document.getElementById("total");
+      const historico = document.getElementById("lista-historico");
+
+      let itensCarrinho = [];
+      let totalCarrinho = 0;
+      let historicoVendas = [];
+
+      carrinhoBtn.addEventListener("click", () => {
+        carrinho.style.display =
+          carrinho.style.display === "flex" ? "none" : "flex";
+      });
+
+      document.querySelectorAll(".comprar").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const produto = btn.dataset.produto;
+          const preco = parseFloat(btn.dataset.preco);
+          itensCarrinho.push({ nome: produto, preco: preco });
+          atualizarCarrinho();
+        });
+      });
+
+      function atualizarCarrinho() {
+        listaCarrinho.innerHTML = "";
+        totalCarrinho = 0;
+        itensCarrinho.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = `${item.nome} - R$ ${item.preco.toFixed(2)} <button onclick="removerItem(${index})">❌</button>`;
+          listaCarrinho.appendChild(li);
+          totalCarrinho += item.preco;
+        });
+        totalDisplay.textContent = `Total: R$ ${totalCarrinho.toFixed(2)}`;
+        carrinhoBtn.textContent = `🛒 Carrinho (${itensCarrinho.length})`;
+      }
+
+      function removerItem(index) {
+        itensCarrinho.splice(index, 1);
+        atualizarCarrinho();
+      }
+
+      finalizarBtn.addEventListener("click", () => {
+        if (itensCarrinho.length === 0) {
+          alert("Carrinho vazio!");
+          return;
+        }
+        const nome = prompt("Digite seu nome para finalizar a compra:");
+        if (!nome) return;
+
+        const compra = {
+          nome,
+          produtos: [...itensCarrinho],
+          total: totalCarrinho.toFixed(2),
+          data: new Date().toLocaleString(),
+        };
+
+        historicoVendas.push(compra);
+        exibirHistorico();
+
+        itensCarrinho = [];
+        atualizarCarrinho();
+        alert("Compra finalizada com sucesso!");
+      });
+
+      function exibirHistorico() {
+        historico.innerHTML = "";
+        historicoVendas.forEach((c) => {
+          const div = document.createElement("div");
+          div.classList.add("compra");
+          div.innerHTML = `
+          <p><strong>Cliente:</strong> ${c.nome}</p>
+          <p><strong>Data:</strong> ${c.data}</p>
+          <p><strong>Produtos:</strong> ${c.produtos.map((p) => p.nome).join(", ")}</p>
+          <p><strong>Total Pago:</strong> R$ ${c.total}</p>
+        `;
+          historico.appendChild(div);
+        });
+      }
+    </script>
+  </body>
+</html>
